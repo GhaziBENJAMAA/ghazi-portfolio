@@ -267,9 +267,17 @@ function setLang(lang) {
   document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   localStorage.setItem('portfolioLang', lang);
+  const url = new URL(window.location.href);
+  if (lang === 'en') {
+    url.searchParams.set('lang', 'en');
+  } else {
+    url.searchParams.delete('lang');
+  }
+  window.history.replaceState({}, '', url);
 }
 
-setLang(localStorage.getItem('portfolioLang') || 'fr');
+const requestedLang = new URLSearchParams(window.location.search).get('lang');
+setLang(requestedLang === 'en' ? 'en' : 'fr');
 </script>
 </body>
 </html>
